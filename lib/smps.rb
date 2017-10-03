@@ -1,4 +1,4 @@
-require "smps/version"
+require 'smps/version'
 
 module Smps
   # Your code goes here...
