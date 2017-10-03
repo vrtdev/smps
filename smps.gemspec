@@ -5,7 +5,7 @@ require 'smps/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'smps'
-  spec.version       = Smps::VERSION
+  spec.version       = SmPs::VERSION
   spec.authors       = ['Stefan - Zipkid - Goethals']
   spec.email         = ['stefan.goethals@vrt.be']
 
@@ -32,8 +32,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.15'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'aws-sdk-ssm'
   spec.add_development_dependency 'aws_config'
 
   spec.add_runtime_dependency 'aws-sdk-core'
+  spec.add_runtime_dependency 'aws-sdk-ssm'
 end
