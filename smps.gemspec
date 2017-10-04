@@ -6,6 +6,7 @@ require 'smps/version'
 Gem::Specification.new do |spec|
   spec.name          = 'smps'
   spec.version       = SmPs::VERSION
+  spec.licenses      = ['MIT']
   spec.authors       = ['Stefan - Zipkid - Goethals']
   spec.email         = ['stefan.goethals@vrt.be']
 
