@@ -51,10 +51,10 @@ opts.each do |opt, arg|
   end
 end
 
-require 'awssession'
-require 'aws_config'
-
 if role
+  require 'awssession'
+  require 'aws_config'
+  
   profile_name = role
   profile = AWSConfig[profile_name]
   profile['name'] = profile_name
