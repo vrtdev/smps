@@ -3,13 +3,17 @@ require 'smps/parameter'
 require 'aws-sdk-ssm'
 
 class SmPs
-  def initialize(options)
+  def initialize(options = {})
     @credentials = options[:credentials]
     @parameters = {}
   end
 
   def ssm_client
-    @ssm || @ssm = Aws::SSM::Client.new(credentials: @credentials)
+    @ssm || @ssm = if @credentials.nil?
+                     Aws::SSM::Client.new
+                   else
+                     Aws::SSM::Client.new(credentials: @credentials)
+                   end
   end
 
   def parameter(name)
