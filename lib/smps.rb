@@ -2,6 +2,7 @@ require 'smps/version'
 require 'smps/parameter'
 require 'aws-sdk-ssm'
 
+# SmPs class queries and writes Paramstore parameters
 class SmPs
   def initialize(options = {})
     @credentials = options[:credentials]
