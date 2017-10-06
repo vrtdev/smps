@@ -5,6 +5,8 @@ class SmPs
     def initialize(options)
       @ssm = options[:ssm]
       @name = options[:name]
+      @type = options[:type]
+      @key_id = options[:key_id]
       parameter
     end
 
@@ -28,13 +30,12 @@ class SmPs
       @exists
     end
 
-    def write!(value, type = 'String', description = nil, key_id = nil)
-      raise ArgumentError unless %w[String StringList SecureString].include? type
-      true if value == @value
+    def write!(value, description = nil)
+      return true if value == @value
       @ssm.put_parameter(
-        name: @name, description: description,
-        value: value, type: type,
-        key_id: key_id, overwrite: @exists,
+        name: @name, value: value,
+        description: description, type: @type,
+        key_id: @key_id, overwrite: @exists,
         # allowed_pattern: "AllowedPattern",
       )
       @value = value

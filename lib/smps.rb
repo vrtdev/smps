@@ -17,9 +17,15 @@ class SmPs
                    end
   end
 
-  def parameter(name)
+  def parameter(options)
+    name = options.fetch(:name)
+    type = options[:type]
+    key_id = options[:key_id]
     unless @parameters.key?(name)
-      @parameters[name] = SmPs::Parameter.new(ssm: ssm_client, name: name)
+      @parameters[name] = SmPs::Parameter.new(
+        ssm: ssm_client,
+        name: name, type: type, key_id: key_id
+      )
     end
     @parameters[name]
   end

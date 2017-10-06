@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.2] - 2017-10-06
+### Added
+- Parameters for creating / writing SecureString
+
 ## [0.2.1] - 2017-10-05
 ### Changed
 - Class structure improvement

@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'getoptlong'
 require 'smps'
+require 'net/http'
 
 def clidoc
   puts <<-CLIDOC
@@ -12,9 +13,20 @@ def clidoc
 
     -r, --role <rolename>
     IAM role to use. From ~/.aws/config
+    Use this for interactive use on your workstation.
 
     -p, --param <param_name>
     Parameter name.
+
+    -v, --value <new_value>
+    Value to assign
+
+    -t, --type <type>
+    Parameter type.
+    One of [String StringList SecureString]
+
+    -k, --key <key_id>
+    Key for SecureString encrypting.
 
     -d, --debug [level]:
     Debug level.
@@ -22,15 +34,32 @@ def clidoc
   CLIDOC
 end
 
+def region
+  require 'net/http'
+  require 'uri'
+  require 'json'
+
+  uri = URI.parse('http://169.254.169.254/latest/dynamic/instance-identity/document')
+  response = Net::HTTP.get_response(uri)
+
+  JSON.parse(response.body)['region']
+end
+
 opts = GetoptLong.new(
   ['--help', '-h', GetoptLong::NO_ARGUMENT],
   ['--role', '-r', GetoptLong::REQUIRED_ARGUMENT],
   ['--param', '-p', GetoptLong::REQUIRED_ARGUMENT],
+  ['--value', '-v', GetoptLong::REQUIRED_ARGUMENT],
+  ['--type', '-t', GetoptLong::REQUIRED_ARGUMENT],
+  ['--key', '-k', GetoptLong::REQUIRED_ARGUMENT],
   ['--debug', '-d', GetoptLong::OPTIONAL_ARGUMENT]
 )
 
 role = nil
 param = nil
+value = nil
+type = nil
+key_id = nil
 debug = 0
 
 opts.each do |opt, arg|
@@ -42,6 +71,12 @@ opts.each do |opt, arg|
     role = arg
   when '--param'
     param = arg
+  when '--value'
+    value = arg
+  when '--type'
+    type = arg
+  when '--key'
+    key_id = arg
   when '--debug'
     debug = if arg == ''
               1
@@ -54,7 +89,7 @@ end
 if role
   require 'awssession'
   require 'aws_config'
-  
+
   profile_name = role
   profile = AWSConfig[profile_name]
   profile['name'] = profile_name
@@ -64,9 +99,12 @@ if role
 
   smps = SmPs.new(credentials: awssession.credentials)
 else
+  Aws.config.update(region: region)
   smps = SmPs.new
 end
 
-puts smps.parameter(param).to_s
+parameter = smps.parameter(name: param, type: type, key_id: key_id)
+parameter.write!(value) if value
+puts parameter.to_s
 
 # vim:set fileencoding=utf8 fileformat=unix filetype=ruby tabstop=2 expandtab:
