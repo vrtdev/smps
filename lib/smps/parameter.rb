@@ -2,18 +2,23 @@
 class SmPs
   # SmPs Parameter management
   class Parameter
+    attr_accessor :name, :type, :key_id, :decrypt, :description
+
     def initialize(options)
       @ssm = options[:ssm]
       @name = options[:name]
+      @value = options[:value]
       @type = options[:type]
       @key_id = options[:key_id]
-      parameter
+      @decrypt = options[:decrypt]
+      fetch = options[:fetch]
+      fetch = true if options[:fetch].nil?
+      parameter if fetch
     end
 
-    def parameter(decrypt = true)
+    def parameter
       resp = @ssm.get_parameter(
-        name: @name,
-        with_decryption: decrypt
+        name: @name, with_decryption: @decrypt
       )
       @type = resp.parameter.type
       @value = resp.parameter.value
@@ -26,19 +31,29 @@ class SmPs
       @value
     end
 
+    def value
+      return @value.split(',') if @type == 'StringList'
+      @value
+    end
+
+    def value=(value)
+      @changed = true if value != @value
+      @value = value
+    end
+
     def exists?
       @exists
     end
 
-    def write!(value, description = nil)
-      return true if value == @value
+    def write!(value = nil)
+      @changed = true if value != @value
+      @value = value if value
       @ssm.put_parameter(
-        name: @name, value: value,
-        description: description, type: @type,
-        key_id: @key_id, overwrite: @exists,
+        name: @name, value: @value, type: @type,
+        description: @description, key_id: @key_id, overwrite: @exists,
         # allowed_pattern: "AllowedPattern",
       )
-      @value = value
+      @value
     end
 
     def history

@@ -1,7 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+Version format based on http://semver.org/
+
 ## [Unreleased]
+## [0.3.0] - 2017-10-13
+### Added
+- parameters_by_path method
 
 ## [0.2.3] - 2017-10-06
 ### Changed

@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'aws_config'
   spec.add_development_dependency 'awssession'
+  spec.add_development_dependency 'awesome_print'
 
   spec.add_runtime_dependency 'aws-sdk-core', '~> 3.0'
   spec.add_runtime_dependency 'aws-sdk-ssm', '~> 1.0'

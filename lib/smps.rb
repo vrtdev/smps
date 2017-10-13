@@ -30,6 +30,31 @@ class SmPs
     @parameters[name]
   end
 
+  def parameters_by_path(options)
+    path = options.fetch(:path)
+    recursive = options[:recursive]
+    decrypt = options[:decrypt] || true
+    params = ssm_client.get_parameters_by_path(
+      path: path,
+      recursive: recursive,
+      with_decryption: decrypt
+    )
+    store_parameters params
+  end
+
+  def store_parameters(params)
+    return if params.nil?
+    list = []
+    params.parameters.each do |parameter|
+      @parameters[parameter.name] = SmPs::Parameter.new(
+        ssm: ssm_client, fetch: false,
+        name: parameter.name, value: parameter.value, type: parameter.type
+      )
+      list << @parameters[parameter.name]
+    end
+    list
+  end
+
   # def info
   #   describe_parameters
   # end
