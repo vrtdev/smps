@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 Version format based on http://semver.org/
 
 ## [Unreleased]
+
+## [0.3.1] - 2017-11-16
+### Added
+- Test script param for fetch by_path
+
 ## [0.3.0] - 2017-10-13
 ### Added
 - parameters_by_path method

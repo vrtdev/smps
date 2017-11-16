@@ -2,6 +2,7 @@
 require 'getoptlong'
 require 'smps'
 require 'net/http'
+require 'pp'
 
 def clidoc
   puts <<-CLIDOC
@@ -17,6 +18,9 @@ def clidoc
 
     -p, --param <param_name>
     Parameter name.
+
+    -b --by_path <path>
+    Path name
 
     -v, --value <new_value>
     Value to assign
@@ -49,6 +53,7 @@ opts = GetoptLong.new(
   ['--help', '-h', GetoptLong::NO_ARGUMENT],
   ['--role', '-r', GetoptLong::REQUIRED_ARGUMENT],
   ['--param', '-p', GetoptLong::REQUIRED_ARGUMENT],
+  ['--by_path', '-b', GetoptLong::REQUIRED_ARGUMENT],
   ['--value', '-v', GetoptLong::REQUIRED_ARGUMENT],
   ['--type', '-t', GetoptLong::REQUIRED_ARGUMENT],
   ['--key', '-k', GetoptLong::REQUIRED_ARGUMENT],
@@ -57,6 +62,7 @@ opts = GetoptLong.new(
 
 role = nil
 param = nil
+by_path = nil
 value = nil
 type = nil
 key_id = nil
@@ -71,6 +77,8 @@ opts.each do |opt, arg|
     role = arg
   when '--param'
     param = arg
+  when '--by_path'
+    by_path = arg
   when '--value'
     value = arg
   when '--type'
@@ -103,8 +111,14 @@ else
   smps = SmPs.new
 end
 
-parameter = smps.parameter(name: param, type: type, key_id: key_id)
-parameter.write!(value) if value
-puts parameter.to_s
+if param
+  parameter = smps.parameter(name: param, type: type, key_id: key_id)
+  parameter.write!(value) if value
+  puts parameter.to_s
+end
 
+if by_path
+  parameters = smps.parameters_by_path(path: by_path)
+  pp parameters
+end
 # vim:set fileencoding=utf8 fileformat=unix filetype=ruby tabstop=2 expandtab:
