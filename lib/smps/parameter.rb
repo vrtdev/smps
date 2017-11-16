@@ -10,7 +10,7 @@ class SmPs
       @value = options[:value]
       @type = options[:type]
       @key_id = options[:key_id]
-      @decrypt = options[:decrypt]
+      @decrypt = options[:decrypt] || true
       fetch = options[:fetch]
       fetch = true if options[:fetch].nil?
       parameter if fetch

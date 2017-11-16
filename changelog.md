@@ -5,6 +5,10 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.3.2] - 2017-11-16
+### Changed
+- Set \@decrypt param to true by default
+
 ## [0.3.1] - 2017-11-16
 ### Added
 - Test script param for fetch by_path
