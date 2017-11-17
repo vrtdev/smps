@@ -5,6 +5,10 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.3.3] - 2017-11-17
+### Changed
+- Add next_token handling for get_parameters_by_path
+
 ## [0.3.2] - 2017-11-16
 ### Changed
 - Set \@decrypt param to true by default

@@ -34,25 +34,36 @@ class SmPs
     path = options.fetch(:path)
     recursive = options[:recursive]
     decrypt = options[:decrypt] || true
-    params = ssm_client.get_parameters_by_path(
-      path: path,
-      recursive: recursive,
-      with_decryption: decrypt
-    )
-    store_parameters params
+    @parameters_by_path_list = []
+    # while result has 'next_token'
+    fetch_more = true
+    next_token = nil
+    while fetch_more
+      params = ssm_client.get_parameters_by_path(
+        path: path,
+        recursive: recursive,
+        with_decryption: decrypt,
+        next_token: next_token
+      )
+      if params.next_token
+        next_token = params.next_token
+      else
+        fetch_more = false
+      end
+      store_parameters params
+    end
+    @parameters_by_path_list
   end
 
   def store_parameters(params)
     return if params.nil?
-    list = []
     params.parameters.each do |parameter|
       @parameters[parameter.name] = SmPs::Parameter.new(
         ssm: ssm_client, fetch: false,
         name: parameter.name, value: parameter.value, type: parameter.type
       )
-      list << @parameters[parameter.name]
+      @parameters_by_path_list << @parameters[parameter.name]
     end
-    list
   end
 
   # def info
