@@ -5,6 +5,10 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.3.4] - 2017-12-20
+### Changed
+- Add http timeout to region get in helper script
+
 ## [0.3.3] - 2017-11-17
 ### Changed
 - Add next_token handling for get_parameters_by_path
