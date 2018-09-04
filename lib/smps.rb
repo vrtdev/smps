@@ -10,11 +10,17 @@ class SmPs
   end
 
   def ssm_client
-    @ssm || @ssm = if @credentials.nil?
-                     Aws::SSM::Client.new
-                   else
-                     Aws::SSM::Client.new(credentials: @credentials)
-                   end
+    @ssm ||= initialize_ssm_client
+  end
+
+  private
+
+  def initialize_ssm_client
+    if @credentials.nil?
+      Aws::SSM::Client.new
+    else
+      Aws::SSM::Client.new(credentials: @credentials)
+    end
   end
 
   def parameter(options)
@@ -31,28 +37,23 @@ class SmPs
   end
 
   def parameters_by_path(options)
-    path = options.fetch(:path)
-    recursive = options[:recursive]
-    decrypt = options[:decrypt] || true
     @parameters_by_path_list = []
-    # while result has 'next_token'
-    fetch_more = true
     next_token = nil
-    while fetch_more
-      params = ssm_client.get_parameters_by_path(
-        path: path,
-        recursive: recursive,
-        with_decryption: decrypt,
-        next_token: next_token
-      )
-      if params.next_token
-        next_token = params.next_token
-      else
-        fetch_more = false
-      end
+    while (params = get_parameters_by_path_with_token(options, next_token))
       store_parameters params
+      next_token = params.next_token
+      break if next_token.nil? || next_token.empty?
     end
     @parameters_by_path_list
+  end
+
+  def get_parameters_by_path_with_token(options, next_token = nil)
+    ssm_client.get_parameters_by_path(
+      path: options.fetch(:path),
+      recursive: options[:recursive],
+      with_decryption: options.fetch(:decrypt, true),
+      next_token: next_token
+    )
   end
 
   def store_parameters(params)
