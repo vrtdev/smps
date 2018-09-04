@@ -24,5 +24,8 @@ Metrics/MethodLength:
 Metrics/CyclomaticComplexity:
   Exclude: [exe/smps]
 
+Metrics/PerceivedComplexity:
+  Exclude: [exe/smps]
+
 Metrics/AbcSize:
   Exclude: [exe/smps]
