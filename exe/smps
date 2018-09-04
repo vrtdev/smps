@@ -39,6 +39,11 @@ def clidoc
 end
 
 def region
+  @region ||= initialize_region
+end
+
+private
+def initialize_region
   require 'net/http'
   require 'uri'
   require 'json'
