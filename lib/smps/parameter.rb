@@ -1,4 +1,6 @@
 
+# frozen_string_literal: true
+
 module SmPs
   # SmPs Parameter management
   class Parameter

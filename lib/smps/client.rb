@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'smps/version'
 require 'smps/parameter'
 require 'aws-sdk-ssm'

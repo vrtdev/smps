@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'net/http'
 require 'uri'
 require 'json'
@@ -48,6 +50,5 @@ module SmPs
       response = http.start { |h| h.get(uri.path) }
       return response.body
     end
-
   end
 end
