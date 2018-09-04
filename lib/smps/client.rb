@@ -4,8 +4,9 @@ require 'smps/version'
 require 'smps/parameter'
 require 'aws-sdk-ssm'
 
-# SmPs class queries and writes Paramstore parameters
 module SmPs
+  # Presents a client interface with parameter parsing to aws ssm
+  # Allows querying and writing Paramstore parameters.
   class Client
     def initialize(options = {})
       @credentials = options[:credentials]
