@@ -1,5 +1,5 @@
 
-class SmPs
+module SmPs
   # SmPs Parameter management
   class Parameter
     attr_accessor :name, :type, :key_id, :decrypt, :description

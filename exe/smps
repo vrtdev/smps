@@ -114,10 +114,10 @@ if role
   awssession = AwsSession.new(profile: profile, debug: debug)
   awssession.start
 
-  smps = SmPs.new(credentials: awssession.credentials)
+  smps = SmPs::Client.new(credentials: awssession.credentials)
 else
   Aws.config.update(region: region)
-  smps = SmPs.new
+  smps = SmPs::Legacy.new
 end
 
 if param
