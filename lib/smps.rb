@@ -10,11 +10,17 @@ class SmPs
   end
 
   def ssm_client
-    @ssm || @ssm = if @credentials.nil?
-                     Aws::SSM::Client.new
-                   else
-                     Aws::SSM::Client.new(credentials: @credentials)
-                   end
+    @ssm ||= initialize_ssm_client
+  end
+
+  private
+
+  def initialize_ssm_client
+    if @credentials.nil?
+      Aws::SSM::Client.new
+    else
+      Aws::SSM::Client.new(credentials: @credentials)
+    end
   end
 
   def parameter(options)
