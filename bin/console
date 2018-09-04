@@ -3,6 +3,25 @@
 require 'bundler/setup'
 require 'smps'
 
+require 'awesome_print'
+# Pretty print returned objects
+module AwesomePrint
+  def self.un_irb!
+    IRB::Irb.class_eval do
+      def output_value # :nodoc:
+        printf @context.return_format, @context.inspect_last_value
+      end
+    end
+  end
+end
+
+AwesomePrint.defaults = {
+  indent: -4,
+  raw: true,
+}
+
+AwesomePrint.irb!
+
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
 
