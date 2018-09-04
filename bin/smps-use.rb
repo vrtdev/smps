@@ -13,7 +13,7 @@ profile['name'] = profile_name
 awssession = AwsSession.new(profile: profile)
 awssession.start
 
-smps = SmPs.new(credentials: awssession.credentials)
+smps = SmPs::Client.new(credentials: awssession.credentials)
 
 puts '1'
 pl = smps.parameters_by_path(path: '/aem/dev/aem--author/packages')
