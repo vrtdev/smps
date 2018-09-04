@@ -4,6 +4,8 @@ require 'smps'
 require 'net/http'
 require 'pp'
 
+include SmPs::AwsHelpers
+
 def clidoc
   puts <<-CLIDOC
 
@@ -38,26 +40,6 @@ def clidoc
   CLIDOC
 end
 
-def region
-  @region ||= initialize_region
-end
-
-private
-def initialize_region
-  require 'net/http'
-  require 'uri'
-  require 'json'
-
-  uri = URI.parse('http://169.254.169.254/latest/dynamic/instance-identity/document')
-  http = Net::HTTP.new(uri.host, uri.port)
-
-  http.read_timeout = 2
-  http.open_timeout = 2
-  response = http.start { |h| h.get(uri.path) }
-
-  JSON.parse(response.body)['region']
-end
-
 opts = GetoptLong.new(
   ['--help', '-h', GetoptLong::NO_ARGUMENT],
   ['--role', '-r', GetoptLong::REQUIRED_ARGUMENT],
@@ -66,6 +48,7 @@ opts = GetoptLong.new(
   ['--value', '-v', GetoptLong::REQUIRED_ARGUMENT],
   ['--type', '-t', GetoptLong::REQUIRED_ARGUMENT],
   ['--key', '-k', GetoptLong::REQUIRED_ARGUMENT],
+  ['--region', GetoptLong::OPTIONAL_ARGUMENT],
   ['--debug', '-d', GetoptLong::OPTIONAL_ARGUMENT]
 )
 
@@ -75,6 +58,7 @@ by_path = nil
 value = nil
 type = nil
 key_id = nil
+region = nil
 debug = 0
 
 opts.each do |opt, arg|
@@ -94,6 +78,8 @@ opts.each do |opt, arg|
     type = arg
   when '--key'
     key_id = arg
+  when '--region'
+    region = arg
   when '--debug'
     debug = if arg == ''
               1
@@ -104,20 +90,11 @@ opts.each do |opt, arg|
 end
 
 if role
-  require 'awssession'
-  require 'aws_config'
-
-  profile_name = role
-  profile = AWSConfig[profile_name]
-  profile['name'] = profile_name
-
-  awssession = AwsSession.new(profile: profile, debug: debug)
-  awssession.start
-
-  smps = SmPs::Client.new(credentials: awssession.credentials)
+  credentials = credentials_from_role(role)
+  smps = SmPs::Client.new(credentials: credentials)
 else
-  Aws.config.update(region: region)
-  smps = SmPs::Legacy.new
+  configure_aws_region(region)
+  smps = SmPs::Client.new
 end
 
 if param

@@ -14,8 +14,6 @@ module SmPs
       @ssm ||= initialize_ssm_client
     end
 
-
-
     def parameter(options)
       name = options.fetch(:name)
       type = options[:type]
