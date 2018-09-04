@@ -31,6 +31,26 @@ module SmPs
                  default: 0,
                  type: :numeric
 
+    class_option 'user-data',
+                 desc: 'Retrieve the name or path, and the key values from the userdata',
+                 default: false,
+                 type: :boolean
+
+    class_option 'user-data-type',
+                 desc: 'Set (force) the user-data type (json or yaml).',
+                 default: :auto,
+                 hide: true
+
+    class_option 'user-data-source',
+                 banner: 'URI',
+                 hide: true,
+                 default: DEFAULT_USERDATA_URI,
+                 desc: 'Override userdata retrieval by using this URI in stead.',
+                 long_desc: <<-LONGDESC
+                     The provided value must be a valid and parseable URI.
+                     By default, if the scheme is not http or https, we will
+                     presume it is a local file.
+    LONGDESC
 
     desc 'get NAME', 'Get path or path indicated by the name'
     long_desc <<-LONGDESC
@@ -63,7 +83,7 @@ module SmPs
     def create_parameter(parameter, type, key)
       raise ArgumentError, 'You must specify the key to encrypt new values!' if type == 'SecureString' && key.nil?
       # new parameter. we need the key!
-      parameter.key_id = key
+      parameter.key_id = retrieve_option(key)
       parameter
     end
 
@@ -75,7 +95,18 @@ module SmPs
     private
 
     def get_parameter(name)
-      smps.parameter(name: name, type: options['type'], key_id: options['key'])
+      smps.parameter(name: retrieve_option(name), type: options['type'], fetch: true)
+    end
+
+    # This will either return the provided option or look
+    # in the user-data (if it has been enabled) for a key with the provided name and use
+    # that value instead.
+    def retrieve_option(name)
+      if options['user-data']
+        retrieve_from_userdata(name, options['user-data-type'], options['user-data-source'])
+      else
+        options[name] || name
+      end
     end
 
     def credentials
