@@ -6,7 +6,9 @@ require 'json'
 require 'yaml'
 
 module SmPs
+  # Some helpers to setup and interact with various aws services.
   module AwsHelpers
+    SSM_PARAMETER_TYPES = %w[String StringList SecureString].freeze
 
     def aws_region
       @region ||= initialize_aws_region

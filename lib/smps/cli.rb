@@ -41,6 +41,37 @@ module SmPs
       puts parameter.to_s
     end
 
+    desc 'set NAME VALUE', 'Set the parameter to this value'
+    option 'type', default: 'String', required: true
+    option 'key',
+           desc: 'KMS key for SecureString encryption/decryption',
+           banner: 'ARN',
+           long_desc: <<-LONGDESC
+                    This should be the arn of the key or the name of the field in the
+                    user-data if using userdata mode.
+    LONGDESC
+    def set(name, value)
+      validate_parameter_type(options['type'])
+      parameter = get_parameter(name)
+      parameter = create_parameter(parameter, options['type'], options['key']) unless parameter.exists?
+      parameter.write!(value)
+      puts parameter.to_s
+    end
+
+    protected
+
+    def create_parameter(parameter, type, key)
+      raise ArgumentError, 'You must specify the key to encrypt new values!' if type == 'SecureString' && key.nil?
+      # new parameter. we need the key!
+      parameter.key_id = key
+      parameter
+    end
+
+    def validate_parameter_type(type)
+      return type if SSM_PARAMETER_TYPES.include?(type)
+      raise MalformattedArgumentError, "Parameter type must be one of #{SSM_PARAMETER_TYPES.join(', ')}"
+    end
+
     private
 
     def get_parameter(name)
