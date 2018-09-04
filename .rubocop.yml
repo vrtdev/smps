@@ -1,0 +1,12 @@
+---
+Metrics/LineLength:
+  Max: 140
+
+Style/RegexpLiteral:
+  Enabled: False
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+Metrics/BlockLength:
+  Exclude: [smps.gemspec]
