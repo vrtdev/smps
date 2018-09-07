@@ -1,110 +1,117 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'getoptlong'
 require 'smps'
 require 'net/http'
 require 'pp'
 
-include SmPs::AwsHelpers
+# Dummy class to initialize our 'program' and make
+# use of the AWsHelpers we have defined.
+class SmpsCLI
+  include SmPs::AwsHelpers
 
-def clidoc
-  puts <<-CLIDOC
+  def clidoc
+    puts <<~CLIDOC
+      #{$PROGRAM_NAME} [OPTION]
 
-    #{$PROGRAM_NAME} [OPTION]
+          -h, --help:
+          show help
 
-    -h, --help:
-    show help
+          -r, --role <rolename>
+          IAM role to use. From ~/.aws/config
+          Use this for interactive use on your workstation.
 
-    -r, --role <rolename>
-    IAM role to use. From ~/.aws/config
-    Use this for interactive use on your workstation.
+          -p, --param <param_name>
+          Parameter name.
 
-    -p, --param <param_name>
-    Parameter name.
+          -b --by_path <path>
+          Path name
 
-    -b --by_path <path>
-    Path name
+          -v, --value <new_value>
+          Value to assign
 
-    -v, --value <new_value>
-    Value to assign
+          -t, --type <type>
+          Parameter type.
+          One of [String StringList SecureString]
 
-    -t, --type <type>
-    Parameter type.
-    One of [String StringList SecureString]
+          -k, --key <key_id>
+          Key for SecureString encrypting.
 
-    -k, --key <key_id>
-    Key for SecureString encrypting.
+          -d, --debug [level]:
+          Debug level.
+    CLIDOC
+  end
 
-    -d, --debug [level]:
-    Debug level.
+  def run
+    opts = GetoptLong.new(
+      ['--help', '-h', GetoptLong::NO_ARGUMENT],
+      ['--role', '-r', GetoptLong::REQUIRED_ARGUMENT],
+      ['--param', '-p', GetoptLong::REQUIRED_ARGUMENT],
+      ['--by_path', '-b', GetoptLong::REQUIRED_ARGUMENT],
+      ['--value', '-v', GetoptLong::REQUIRED_ARGUMENT],
+      ['--type', '-t', GetoptLong::REQUIRED_ARGUMENT],
+      ['--key', '-k', GetoptLong::REQUIRED_ARGUMENT],
+      ['--region', GetoptLong::OPTIONAL_ARGUMENT],
+      ['--debug', '-d', GetoptLong::OPTIONAL_ARGUMENT]
+    )
 
-  CLIDOC
-end
+    role = nil
+    param = nil
+    by_path = nil
+    value = nil
+    type = nil
+    key_id = nil
+    region = nil
+    debug = 0
 
-opts = GetoptLong.new(
-  ['--help', '-h', GetoptLong::NO_ARGUMENT],
-  ['--role', '-r', GetoptLong::REQUIRED_ARGUMENT],
-  ['--param', '-p', GetoptLong::REQUIRED_ARGUMENT],
-  ['--by_path', '-b', GetoptLong::REQUIRED_ARGUMENT],
-  ['--value', '-v', GetoptLong::REQUIRED_ARGUMENT],
-  ['--type', '-t', GetoptLong::REQUIRED_ARGUMENT],
-  ['--key', '-k', GetoptLong::REQUIRED_ARGUMENT],
-  ['--region', GetoptLong::OPTIONAL_ARGUMENT],
-  ['--debug', '-d', GetoptLong::OPTIONAL_ARGUMENT]
-)
+    opts.each do |opt, arg|
+      case opt
+      when '--help'
+        clidoc
+        exit
+      when '--role'
+        role = arg
+      when '--param'
+        param = arg
+      when '--by_path'
+        by_path = arg
+      when '--value'
+        value = arg
+      when '--type'
+        type = arg
+      when '--key'
+        key_id = arg
+      when '--region'
+        region = arg
+      when '--debug'
+        debug = if arg == ''
+                  1
+                else
+                  arg.to_i
+                end
+      end
+    end
 
-role = nil
-param = nil
-by_path = nil
-value = nil
-type = nil
-key_id = nil
-region = nil
-debug = 0
+    if role
+      credentials = credentials_from_role(role)
+      smps = SmPs::Client.new(credentials: credentials)
+    else
+      configure_aws_region(region)
+      smps = SmPs::Client.new
+    end
 
-opts.each do |opt, arg|
-  case opt
-  when '--help'
-    clidoc
-    exit
-  when '--role'
-    role = arg
-  when '--param'
-    param = arg
-  when '--by_path'
-    by_path = arg
-  when '--value'
-    value = arg
-  when '--type'
-    type = arg
-  when '--key'
-    key_id = arg
-  when '--region'
-    region = arg
-  when '--debug'
-    debug = if arg == ''
-              1
-            else
-              arg.to_i
-            end
+    if param
+      parameter = smps.parameter(name: param, type: type, key_id: key_id)
+      parameter.write!(value) if value
+      puts parameter.to_s
+    end
+
+    return unless by_path
+    parameters = smps.parameters_by_path(path: by_path)
+    pp parameters
   end
 end
 
-if role
-  credentials = credentials_from_role(role)
-  smps = SmPs::Client.new(credentials: credentials)
-else
-  configure_aws_region(region)
-  smps = SmPs::Client.new
-end
-
-if param
-  parameter = smps.parameter(name: param, type: type, key_id: key_id)
-  parameter.write!(value) if value
-  puts parameter.to_s
-end
-
-if by_path
-  parameters = smps.parameters_by_path(path: by_path)
-  pp parameters
-end
+SmpsCLI.new.run
 # vim:set fileencoding=utf8 fileformat=unix filetype=ruby tabstop=2 expandtab:

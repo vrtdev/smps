@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 module SmPs
   # SmPs Parameter management
@@ -11,8 +12,7 @@ module SmPs
       @type = options[:type]
       @key_id = options[:key_id]
       @decrypt = options[:decrypt] || true
-      fetch = options[:fetch]
-      fetch = true if options[:fetch].nil?
+      fetch = options[:fetch] || true
       parameter if fetch
     end
 
