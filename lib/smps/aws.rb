@@ -57,11 +57,15 @@ module SmPs
       when 'json', :json
         parse_json(data, true)
       else
-        parsed = parse_yaml(data)
-        parsed = parse_json(data) if parsed.nil?
-        raise ArgumentError, 'Could not determine the format of the user-data' if parsed.nil?
-        parsed
+        parse_auto(data)
       end
+    end
+
+    def parse_auto(data)
+      parsed = parse_yaml(data)
+      parsed = parse_json(data) if parsed.nil?
+      raise ArgumentError, 'Could not determine the format of the user-data' if parsed.nil?
+      parsed
     end
 
     def parse_json(json, raise = false)
