@@ -14,7 +14,7 @@ module SmPs
     end
 
     def ssm_client
-      @ssm ||= initialize_ssm_client
+      @ssm_client ||= initialize_ssm_client
     end
 
     def parameter(options)

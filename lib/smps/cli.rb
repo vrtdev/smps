@@ -14,7 +14,7 @@ module SmPs
     end
 
     class_option 'role',
-                 desc:"IAM profile/role to use. From ~/.aws/config",
+                 desc: 'IAM profile/role to use. From ~/.aws/config',
                  default: nil,
                  banner: 'PROFILE',
                  long_desc: <<-LONGDESC
@@ -50,7 +50,7 @@ module SmPs
                      The provided value must be a valid and parseable URI.
                      By default, if the scheme is not http or https, we will
                      presume it is a local file.
-    LONGDESC
+                 LONGDESC
 
     desc 'get NAME', 'Get path or path indicated by the name'
     long_desc <<-LONGDESC
@@ -67,9 +67,9 @@ module SmPs
            desc: 'KMS key for SecureString encryption/decryption',
            banner: 'ARN',
            long_desc: <<-LONGDESC
-                    This should be the arn of the key or the name of the field in the
-                    user-data if using userdata mode.
-    LONGDESC
+                        This should be the arn of the key or the name of the field in the
+                        user-data if using userdata mode.
+           LONGDESC
     def set(name, value)
       validate_parameter_type(options['type'])
       parameter = get_parameter(name)
@@ -121,6 +121,5 @@ module SmPs
     def smps
       @smps ||= SmPs::Client.new(credentials: credentials)
     end
-
   end
 end

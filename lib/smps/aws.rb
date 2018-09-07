@@ -12,7 +12,7 @@ module SmPs
     DEFAULT_USERDATA_URI = 'http://169.254.169.254/latest/user-data'
 
     def aws_region
-      @region ||= initialize_aws_region
+      @aws_region ||= initialize_aws_region
     end
 
     def retrieve_from_userdata(key, userdata_type = :auto, source = DEFAULT_USERDATA_URI)
@@ -21,7 +21,7 @@ module SmPs
     end
 
     def user_data(source, type = :auto)
-      @userdata ||= initialize_user_data(source, type)
+      @user_data ||= initialize_user_data(source, type)
     end
 
     def credentials_from_role(role, debug = false)
