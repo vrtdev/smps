@@ -62,7 +62,8 @@ module SmPs
     end
 
     desc 'set NAME VALUE', 'Set the parameter to this value'
-    option 'type', default: 'String', required: true
+    option 'type', default: 'String', required: true,
+      desc: 'The value type. Can be one of: String, SecureString or StringList'
     option 'key',
            desc: 'KMS key for SecureString encryption/decryption',
            banner: 'ARN',
