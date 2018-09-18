@@ -13,3 +13,6 @@
 .rspec_status
 
 *-session.yaml
+
+# IDE
+.idea/

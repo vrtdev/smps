@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 
-class SmPs
+module SmPs
   # SmPs Parameter management
   class Parameter
     attr_accessor :name, :type, :key_id, :decrypt, :description
@@ -11,11 +12,11 @@ class SmPs
       @type = options[:type]
       @key_id = options[:key_id]
       @decrypt = options[:decrypt] || true
-      fetch = options[:fetch]
-      fetch = true if options[:fetch].nil?
+      fetch = options[:fetch] || true
       parameter if fetch
     end
 
+    # Gets a parameter from Aws SSM.
     def parameter
       resp = @ssm.get_parameter(
         name: @name, with_decryption: @decrypt
@@ -27,15 +28,18 @@ class SmPs
       @exists = false
     end
 
+    # Prints the current value.
     def to_s
       @value
     end
 
+    # Returns the value (String) or array if the `type` is StringList
     def value
       return @value.split(',') if @type == 'StringList'
       @value
     end
 
+    # Set the value and mark the parameter as changed.
     def value=(value)
       @changed = true if value != @value
       @value = value
@@ -45,6 +49,7 @@ class SmPs
       @exists
     end
 
+    # Updates the parameter in the parameter store (remote).
     def write!(value = nil)
       @changed = true if value != @value
       @value = value if value
@@ -56,10 +61,12 @@ class SmPs
       @value
     end
 
+    # Not implemented yet.
     def history
       # get_parameter_history
     end
 
+    # Not implemented yet.
     def tag
       # add_tags_to_resource
       # remove_tags_from_resource

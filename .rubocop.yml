@@ -1,0 +1,34 @@
+---
+
+AllCops:
+  TargetRubyVersion: 2.3
+
+Metrics/LineLength:
+  Max: 140
+
+Style/RegexpLiteral:
+  Enabled: False
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Layout/IndentHeredoc:
+  EnforcedStyle: squiggly
+
+Metrics/BlockLength:
+  Exclude: [smps.gemspec]
+
+Metrics/MethodLength:
+  Exclude: [exe/smps]
+
+Metrics/CyclomaticComplexity:
+  Exclude: [exe/smps]
+
+Metrics/PerceivedComplexity:
+  Exclude: [exe/smps]
+
+Metrics/AbcSize:
+  Exclude: [exe/smps]

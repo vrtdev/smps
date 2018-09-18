@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'smps'
 
-smps = SmPs.new
+smps = SmPs::Client.new
 param_abc = smps.parameter(name: 'abc')
 puts param_abc.to_s
 
