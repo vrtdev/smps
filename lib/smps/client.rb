@@ -13,10 +13,12 @@ module SmPs
       @parameters = {}
     end
 
+    # Creates (if needed) and returns the ssm_client.
     def ssm_client
       @ssm_client ||= initialize_ssm_client
     end
 
+    # Creates a new SmPs::Parameter from the given options hash.
     def parameter(options)
       name = options.fetch(:name)
       type = options[:type]
@@ -30,6 +32,7 @@ module SmPs
       @parameters[name]
     end
 
+    # Creates a list of all parameters filtered by path.
     def parameters_by_path(options)
       @parameters_by_path_list = []
       next_token = nil
@@ -41,6 +44,9 @@ module SmPs
       @parameters_by_path_list
     end
 
+    protected
+
+    # Get a parameter list by path using the next_token (if provided)
     def get_parameters_by_path_with_token(options, next_token = nil)
       ssm_client.get_parameters_by_path(
         path: options.fetch(:path),
@@ -49,6 +55,8 @@ module SmPs
         next_token: next_token
       )
     end
+
+    private
 
     def store_parameters(params)
       return if params.nil?
@@ -72,8 +80,6 @@ module SmPs
     # def by_path
     #   get_parameters_by_path
     # end
-
-    private
 
     def initialize_ssm_client
       if @credentials.nil?

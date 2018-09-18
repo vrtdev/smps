@@ -56,14 +56,17 @@ module SmPs
     long_desc <<-LONGDESC
     Gets a value from the parameter store.
     LONGDESC
+    # implements the get action.
     def get(name)
       parameter = get_parameter(name)
       puts parameter.to_s
     end
 
     desc 'set NAME VALUE', 'Set the parameter to this value'
-    option 'type', default: 'String', required: true,
-      desc: 'The value type. Can be one of: String, SecureString or StringList'
+    option 'type',
+           default: 'String',
+           required: true,
+           desc: 'The value type. Can be one of: String, SecureString or StringList'
     option 'key',
            desc: 'KMS key for SecureString encryption/decryption',
            banner: 'ARN',
@@ -71,6 +74,7 @@ module SmPs
                         This should be the arn of the key or the name of the field in the
                         user-data if using userdata mode.
            LONGDESC
+    # implements the set action.
     def set(name, value)
       validate_parameter_type(options['type'])
       parameter = get_parameter(name)
