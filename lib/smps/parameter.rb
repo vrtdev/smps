@@ -16,6 +16,7 @@ module SmPs
       parameter if fetch
     end
 
+    # Gets a parameter from Aws SSM.
     def parameter
       resp = @ssm.get_parameter(
         name: @name, with_decryption: @decrypt
@@ -27,15 +28,18 @@ module SmPs
       @exists = false
     end
 
+    # Prints the current value.
     def to_s
       @value
     end
 
+    # Returns the value (String) or array if the `type` is StringList
     def value
       return @value.split(',') if @type == 'StringList'
       @value
     end
 
+    # Set the value and mark the parameter as changed.
     def value=(value)
       @changed = true if value != @value
       @value = value
@@ -45,6 +49,7 @@ module SmPs
       @exists
     end
 
+    # Updates the parameter in the parameter store (remote).
     def write!(value = nil)
       @changed = true if value != @value
       @value = value if value
@@ -56,10 +61,12 @@ module SmPs
       @value
     end
 
+    # Not implemented yet.
     def history
       # get_parameter_history
     end
 
+    # Not implemented yet.
     def tag
       # add_tags_to_resource
       # remove_tags_from_resource

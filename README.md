@@ -1,12 +1,16 @@
-# Smps
+# SMPS - System Manager Parameter Store
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/smps`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A command line tool and library to interact with the Amazon System Manager Parameter Store
 
 ## Installation
 
-Add this line to your application's Gemfile:
+    $ gem install smps
+
+## Usage
+
+### Library
+
+To use this gem in your own tools, add this line to your application's Gemfile:
 
 ```ruby
 gem 'smps'
@@ -16,13 +20,105 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+### CLI
 
-    $ gem install smps
+After installation, 2 executeable scripts will be installed: `smps` (deprecated) & `smps-cli`:
 
-## Usage
+- smps: the old version of this utility. Kept until the next major release for backward compatibility.
+- smps-cli: The new cli executable that should be used.
 
-TODO: Write usage instructions here
+#### smps
+
+Run the command with `--help` for more information.
+
+```
+smps [OPTION]
+
+    -h, --help:
+    show help
+
+    -r, --role <rolename>
+    IAM role to use. From ~/.aws/config
+    Use this for interactive use on your workstation.
+
+    -p, --param <param_name>
+    Parameter name.
+
+    -b --by_path <path>
+    Path name
+
+    -v, --value <new_value>
+    Value to assign
+
+    -t, --type <type>
+    Parameter type.
+    One of [String StringList SecureString]
+
+    -k, --key <key_id>
+    Key for SecureString encrypting.
+
+    -d, --debug [level]:
+    Debug level.
+```
+
+#### smps-cli
+
+The smps-cli command is a new cli with more straightforward actions.
+
+Run the command with `help` for more information: `smps-cli help`. For each individual action,
+you can also use `smps-cli help <action>`
+
+##### help
+
+```
+Commands:
+  smps-cli get NAME                    # Get path or path indicated by the name
+  smps-cli help [COMMAND]              # Describe available commands or one s...
+  smps-cli set NAME VALUE --type=TYPE  # Set the parameter to this value
+
+Options:
+  [--role=PROFILE]                 # IAM profile/role to use. From ~/.aws/config
+  [--region=REGION]                # Override the aws region
+  [--debug=N]                      # AwsSession debug level.
+                                   # Default: 0
+  [--user-data], [--no-user-data]  # Retrieve the name or path, and the key values from the userdata
+```
+
+##### get NAME
+
+```
+Usage:
+  smps-cli get NAME
+
+Options:
+  [--role=PROFILE]                 # IAM profile/role to use. From ~/.aws/config
+  [--region=REGION]                # Override the aws region
+  [--debug=N]                      # AwsSession debug level.
+                                   # Default: 0
+  [--user-data], [--no-user-data]  # Retrieve the name or path, and the key values from the userdata
+
+Description:
+  Gets a value from the parameter store.
+```
+
+##### set NAME VALUE
+
+```
+Usage:
+  smps-cli set NAME VALUE --type=TYPE
+
+Options:
+  --type=TYPE
+                                   # Default: String
+  [--key=ARN]                      # KMS key for SecureString encryption/decryption
+  [--role=PROFILE]                 # IAM profile/role to use. From ~/.aws/config
+  [--region=REGION]                # Override the aws region
+  [--debug=N]                      # AwsSession debug level.
+                                   # Default: 0
+  [--user-data], [--no-user-data]  # Retrieve the name or path, and the key values from the userdata
+
+Set the parameter to this value
+```
 
 ## Development
 
@@ -32,4 +128,14 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/smps.
+We use git flow in this project. To create your pull request, you can either use the git-flow helper or
+manually create a new feature branch and pull request.
+
+1. Fork it ( https://github.com/vrtdev/smps/fork )
+2. Clone your forked repository.
+3. Create your feature branch (`git checkout -b feature/my-new-feature`)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin feature/my-new-feature`)
+6. Create a new Pull Request. Remember to make the pull request against the `develop` branch.
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/vrtdev/smps.
