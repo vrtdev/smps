@@ -5,6 +5,10 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.4.0] - 2018-09-18
+### Added
+- New cli executable based on thor
+
 ## [0.3.4] - 2017-12-20
 ### Changed
 - Add http timeout to region get in helper script
