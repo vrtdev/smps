@@ -5,6 +5,10 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.4.1] - 2018-09-25
+### Changed
+- Change dependency on thor to 0.19.* to work with available native debian packages
+
 ## [0.4.0] - 2018-09-18
 ### Added
 - New cli executable based on thor

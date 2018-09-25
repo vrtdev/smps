@@ -2,5 +2,5 @@
 
 module SmPs
   # Current version.
-  VERSION = '0.4.0'
+  VERSION = '0.4.1'
 end
