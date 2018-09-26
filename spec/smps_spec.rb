@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'spec_helper'
+require 'smps'
 
 RSpec.describe SmPs do
   it "::VERSION" do
@@ -7,9 +8,8 @@ RSpec.describe SmPs do
   end
 
   context ".new" do
-    subject { SmPs.new }
     it do
-      is_expected.to be_a(SmPs)
+      expect(SmPs.new).to be_a(SmPs::Client)
     end
   end
 end
