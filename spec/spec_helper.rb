@@ -25,5 +25,6 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   # Warn on possibly buggy code (require loops, unused vars, uninitialized vars, ...)
-  config.warnings = true
+  # manually enable since some dependencies spam a LOT
+  config.warnings = false
 end
