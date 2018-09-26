@@ -1,11 +1,15 @@
 require "spec_helper"
 
-RSpec.describe Smps do
-  it "has a version number" do
-    expect(Smps::VERSION).not_to be nil
+RSpec.describe SmPs do
+  it "::VERSION" do
+    expect(described_class::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  context ".new" do
+    subject { SmPs.new }
+    it do
+      is_expected.to be_a(SmPs)
+    end
   end
+
 end
