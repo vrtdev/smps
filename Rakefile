@@ -29,12 +29,23 @@ task :build do
   FileUtils.mv(Dir['*.gem'], 'pkg')
 end
 
+def changelog
+  log = File.read('changelog.md').split("\n\n")
+  unreleased_index = log.index { |k| k =~ %r{\[Unreleased\]} }
+  log[unreleased_index + 1]
+end
+
+desc 'Displays the latests changelog entry'
+task :changelog do
+  puts changelog
+end
+
 desc 'Tags version, pushes to remote, and pushes gem'
 task release: :build do
   sh 'git', 'tag', '-m', changelog, "v#{SmPs::VERSION}"
-  sh 'git push origin master'
-  sh "git push origin v#{SmPs::VERSION}"
-  sh 'ls pkg/*.gem | xargs -n 1 gem push'
+  #sh 'git push origin master'
+  #sh "git push origin v#{SmPs::VERSION}"
+  #sh 'ls pkg/*.gem | xargs -n 1 gem push'
 end
 
 task doc: :yard
