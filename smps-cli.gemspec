@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['stefan.goethals@vrt.be', 'jan.vansteenkiste@vrt.be']
 
   spec.summary       = 'SMPS - Systems Manager Parameter Store - CLI Tool'
-  spec.description   = 'SMPS - Systems Manager Parameter Store - CLI Tool'
+  spec.description   = 'SMPS - Systems Manager Parameter Store - CLI Tool.'
   spec.homepage      = 'https://github.com/vrtdev/smps'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

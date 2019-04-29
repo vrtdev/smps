@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['stefan.goethals@vrt.be']
 
   spec.summary       = 'SMPS - Systems Manager Parameter Store'
-  spec.description   = 'SMPS - Systems Manager Parameter Store'
+  spec.description   = 'SMPS - Systems Manager Parameter Store.'
   spec.homepage      = 'http://github.com/vrtdev/smps'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -37,5 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'aws-sdk-core', '~> 3.0'
   spec.add_runtime_dependency 'aws-sdk-ssm', '~> 1.0'
 
-  spec.required_ruby_version = '~> 2.3'
+  spec.required_ruby_version = '~> 2.1'
 end

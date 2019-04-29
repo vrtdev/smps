@@ -5,6 +5,11 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.5.1] - 2019-04-29
+### Changed
+- Updated doc.
+- Lower required Ruby version for smps gem.
+
 ## [0.5.0.pre]
 ### Changed
 - Split in 2 separate gems: smps and smps-cli.
