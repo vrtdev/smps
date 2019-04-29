@@ -22,10 +22,10 @@ And then execute:
 
 ### CLI
 
-After installation, 2 executeable scripts will be installed: `smps` (deprecated) & `smps-cli`:
+After installation, 2 executeable scripts will be installed: `smps` & `smps-cli`:
 
-- smps: the old version of this utility. Kept until the next major release for backward compatibility.
-- smps-cli: The new cli executable that should be used.
+- smps: the simple version of this utility.
+- smps-cli: The thor cli executable offers a different interface.
 
 #### smps
 
