@@ -5,20 +5,16 @@ lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'smps/version'
 
-plugin_files = Dir['smps-*.gemspec'].map do |gemspec|
-  Gem::Specification.load(gemspec).files
-end.flatten.uniq
-
 Gem::Specification.new do |spec|
-  spec.name          = 'smps'
+  spec.name          = 'smps-cli'
   spec.version       = SmPs::VERSION
   spec.licenses      = ['MIT']
-  spec.authors       = ['Stefan - Zipkid - Goethals']
-  spec.email         = ['stefan.goethals@vrt.be']
+  spec.authors       = ['Stefan - Zipkid - Goethals', 'Jan Vansteenkiste']
+  spec.email         = ['stefan.goethals@vrt.be', 'jan.vansteenkiste@vrt.be']
 
-  spec.summary       = 'SMPS - Systems Manager Parameter Store'
-  spec.description   = 'SMPS - Systems Manager Parameter Store.'
-  spec.homepage      = 'http://github.com/vrtdev/smps'
+  spec.summary       = 'SMPS - Systems Manager Parameter Store - CLI Tool'
+  spec.description   = 'SMPS - Systems Manager Parameter Store - CLI Tool.'
+  spec.homepage      = 'https://github.com/vrtdev/smps'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -29,13 +25,13 @@ Gem::Specification.new do |spec|
       'public gem pushes.'
   end
 
-  spec.files         = (Dir.glob('lib/**/*') - plugin_files) + %w[license.txt changelog.md README.md exe/smps]
+  spec.files         = ['exe/smps-cli', 'lib/smps/cli.rb'] + %w[license.txt changelog.md README.md]
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'aws-sdk-core', '~> 3.0'
-  spec.add_runtime_dependency 'aws-sdk-ssm', '~> 1.0'
+  spec.add_runtime_dependency 'smps', SmPs::VERSION
+  spec.add_runtime_dependency 'thor', '~> 0.19'
 
-  spec.required_ruby_version = '~> 2.1'
+  spec.required_ruby_version = '~> 2.3'
 end

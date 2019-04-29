@@ -5,6 +5,15 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.5.1] - 2019-04-29
+### Changed
+- Updated doc.
+- Lower required Ruby version for smps gem.
+
+## [0.5.0.pre]
+### Changed
+- Split in 2 separate gems: smps and smps-cli.
+
 ## [0.4.1] - 2018-09-25
 ### Changed
 - Change dependency on thor to 0.19.* to work with available native debian packages

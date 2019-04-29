@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'smps'
 
-RSpec.describe Smps do
-  it 'has a version number' do
-    expect(Smps::VERSION).not_to be nil
+RSpec.describe SmPs do
+  it '::VERSION' do
+    expect(described_class::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  context '.new' do
+    it do
+      expect(SmPs.new).to be_a(SmPs::Client)
+    end
   end
 end
