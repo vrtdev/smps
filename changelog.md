@@ -5,6 +5,10 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.5.2] - 2020-03-11
+### Changed
+- Make return of parameters_by_path a hash with key : value and print it cleanly on cli
+
 ## [0.5.1] - 2019-04-29
 ### Changed
 - Updated doc.
