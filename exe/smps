@@ -109,7 +109,9 @@ class SmpsCLI
 
     return unless by_path
     parameters = smps.parameters_by_path(path: by_path)
-    pp parameters
+    parameters.each do |k, v|
+      puts "key: #{k}\nvalue: #{v}"
+    end
   end
 end
 

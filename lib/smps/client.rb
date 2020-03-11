@@ -41,10 +41,15 @@ module SmPs
         next_token = params.next_token
         break if next_token.nil? || next_token.empty?
       end
-      @parameters_by_path_list
+      parameters_result_hash options.fetch(:path), @parameters_by_path_list
     end
 
     protected
+
+    def parameters_result_hash(path, list)
+      path = "#{path}/" unless path.end_with?('/')
+      list.map { |p| [p.name.delete_prefix(path), p.value] }.to_h
+    end
 
     # Get a parameter list by path using the next_token (if provided)
     def get_parameters_by_path_with_token(options, next_token = nil)
