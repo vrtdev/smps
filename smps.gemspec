@@ -37,5 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'aws-sdk-core', '> 3.0'
   spec.add_runtime_dependency 'aws-sdk-ssm', '> 1.0'
 
-  spec.required_ruby_version = '> 2.3'
+  spec.required_ruby_version = '>= 2.3'
 end
