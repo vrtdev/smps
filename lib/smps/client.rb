@@ -48,7 +48,7 @@ module SmPs
 
     def parameters_result_hash(path, list)
       path = "#{path}/" unless path.end_with?('/')
-      list.map { |p| [p.name.delete_prefix(path), p.value] }.to_h
+      list.map { |p| [p.name.gsub(/#{Regexp.escape(path)}/, ''), p.value] }.to_h
     end
 
     # Get a parameter list by path using the next_token (if provided)
