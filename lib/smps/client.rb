@@ -48,7 +48,10 @@ module SmPs
 
     def parameters_result_hash(path, list)
       path = "#{path}/" unless path.end_with?('/')
-      list.map { |p| [p.name.gsub(/#{Regexp.escape(path)}/, ''), p.value] }.to_h
+      # .to_h is not available in jruby (the puppetserver ruby version)
+      # list.map { |p| [p.name.gsub(/#{Regexp.escape(path)}/, ''), p.value] }.to_h
+      arr = list.map { |p| [p.name.gsub(/#{Regexp.escape(path)}/, ''), p.value] }
+      Hash[arr]
     end
 
     # Get a parameter list by path using the next_token (if provided)
