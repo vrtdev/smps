@@ -91,10 +91,10 @@ module SmPs
 
     def initialize_ssm_client
       # see https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SSM/Client.html#initialize-instance_method
-      Aws::SSM::Client.new(@options.merge(
-        :max_attempts => 10,
-        :retry_mode => 'adaptive'
-      ))
+      all_options = @options.merge(max_attempts: 10,
+                                   retry_mode: 'adaptive')
+      # puts all_options
+      Aws::SSM::Client.new(all_options)
     end
   end
 end
