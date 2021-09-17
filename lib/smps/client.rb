@@ -9,7 +9,7 @@ module SmPs
   # Allows querying and writing Paramstore parameters.
   class Client
     def initialize(options = {})
-      @credentials = options[:credentials]
+      @options = options
       @parameters = {}
     end
 
@@ -90,11 +90,11 @@ module SmPs
     # end
 
     def initialize_ssm_client
-      if @credentials.nil?
-        Aws::SSM::Client.new
-      else
-        Aws::SSM::Client.new(credentials: @credentials)
-      end
+      # see https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SSM/Client.html#initialize-instance_method
+      all_options = @options.merge(max_attempts: 10,
+                                   retry_mode: 'adaptive')
+      # puts all_options
+      Aws::SSM::Client.new(all_options)
     end
   end
 end
