@@ -5,6 +5,12 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.5.4] - 2021-09-17
+
+### Changed
+
+- Added automatic client side throttling to avoid Aws::SSM::Errors::ThrottlingException.
+
 ## [0.5.3] - 2020-04-01
 
 ### Changed

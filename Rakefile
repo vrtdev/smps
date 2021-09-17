@@ -43,9 +43,9 @@ end
 desc 'Tags version, pushes to remote, and pushes gem'
 task release: :build do
   sh 'git', 'tag', '-m', changelog, "v#{SmPs::VERSION}"
-  #sh 'git push origin master'
-  #sh "git push origin v#{SmPs::VERSION}"
-  #sh 'ls pkg/*.gem | xargs -n 1 gem push'
+  # sh 'git push origin master'
+  # sh "git push origin v#{SmPs::VERSION}"
+  # sh 'ls pkg/*.gem | xargs -n 1 gem push'
 end
 
 task doc: :yard
