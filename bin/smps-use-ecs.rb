@@ -2,6 +2,11 @@
 # frozen_string_literal: true
 
 require 'smps'
+require 'net/http'
+
+def region
+    'eu-west-1'
+end
 
 REGION = ARGV[0]
 ACCOUNT_ID = ARGV[1]
