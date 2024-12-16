@@ -5,6 +5,12 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [1.0.0] - 2024-12-16
+
+### Removed
+
+- Removed Thor CLI version.
+
 ## [0.5.5] - 2024-12-16
 
 ### Changed

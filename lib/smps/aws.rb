@@ -29,12 +29,6 @@ module SmPs
       @aws_region ||= initialize_aws_region
     end
 
-    # Only used from cli.rb, which is not used in this project.
-    def retrieve_from_userdata(key, userdata_type = :auto, source = 'http://169.254.169.254/latest/user-data')
-      userdata = user_data(source, userdata_type)
-      userdata[key]
-    end
-
     def user_data(source, type = :auto)
       @user_data ||= initialize_user_data(source, type)
     end
