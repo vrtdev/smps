@@ -19,7 +19,7 @@ module SmPs
       if ENV['ECS_CONTAINER_METADATA_URI_V4']
         i_type = 'ecs'
       else
-        get_resource('http://169.254.169.254')
+        get_resource('http://169.254.169.254/latest')
         i_type = 'ec2'
       end
       i_type
