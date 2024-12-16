@@ -64,11 +64,45 @@ smps [OPTION]
 
 ## Development
 
-After checking out the repo, run `./bin/setup` to install dependencies. Then, run `bundle exec rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, install dependencies.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```bash
+./bin/setup
+```
 
-To test the `smps` utility on your local machine, run `bundle exec smps --help` to see command-line options.
+ Then run the tests.
+
+ ```bash
+bundle exec rake spec
+```
+
+To install this gem onto your local machine.
+
+```bash
+bundle exec rake install
+```
+
+To create a package that can be installed on a different machine.
+
+```bash
+bundle exec rake build
+```
+
+This will create a `.gem` file in the `pkg` directory.
+
+To release a new version, update the version number in `version.rb` and then run
+
+```bash
+bundle exec rake release
+```
+
+This will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+To test the `smps` utility on your local machine, run the command below to see command-line options.
+
+```bash
+bundle exec smps --help
+```
 
 ## Contributing
 
