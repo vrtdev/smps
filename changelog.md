@@ -5,6 +5,12 @@ Version format based on http://semver.org/
 
 ## [Unreleased]
 
+## [0.5.5] - 2024-12-16
+
+### Changed
+
+- Added automatic discovery of instance type. EC2 Vs ECS.
+
 ## [0.5.4] - 2021-09-17
 
 ### Changed

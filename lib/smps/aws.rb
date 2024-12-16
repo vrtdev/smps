@@ -9,13 +9,28 @@ module SmPs
   # Some helpers to setup and interact with various aws services.
   module AwsHelpers
     SSM_PARAMETER_TYPES = %w[String StringList SecureString].freeze
-    DEFAULT_USERDATA_URI = 'http://169.254.169.254/latest/user-data'
+
+    def instance_type
+      @instance_type ||= initialize_instance_type
+    end
+
+    def initialize_instance_type
+      i_type = nil
+      if ENV['ECS_CONTAINER_METADATA_URI_V4']
+        i_type = 'ecs'
+      else
+        get_resource('http://169.254.169.254')
+        i_type = 'ec2'
+      end
+      i_type
+    end
 
     def aws_region
       @aws_region ||= initialize_aws_region
     end
 
-    def retrieve_from_userdata(key, userdata_type = :auto, source = DEFAULT_USERDATA_URI)
+    # Only used from cli.rb, which is not used in this project.
+    def retrieve_from_userdata(key, userdata_type = :auto, source = 'http://169.254.169.254/latest/user-data')
       userdata = user_data(source, userdata_type)
       userdata[key]
     end
@@ -83,6 +98,20 @@ module SmPs
     end
 
     def initialize_aws_region
+      if instance_type == 'ecs'
+        return initialize_ecs_aws_region
+      elsif instance_type == 'ec2'
+        return initialize_ec2_aws_region
+      end
+    end
+
+    def initialize_ecs_aws_region
+      url = ENV['ECS_CONTAINER_METADATA_URI_V4']
+      c_arn = JSON.parse(get_resource(url))['ContainerARN']
+      c_arn.split(':')[3]
+    end
+
+    def initialize_ec2_aws_region
       url = 'http://169.254.169.254/latest/dynamic/instance-identity/document'
       JSON.parse(get_resource(url))['region']
     end
