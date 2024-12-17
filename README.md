@@ -94,6 +94,8 @@ To release a new version, update the version number in `version.rb` and then run
 
 ```bash
 bundle exec rake release
+git push --tags
+gem push pkg/smps-<version>.gem
 ```
 
 This will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
