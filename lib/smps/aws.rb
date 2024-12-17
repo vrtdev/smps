@@ -19,7 +19,7 @@ module SmPs
       if ENV['ECS_CONTAINER_METADATA_URI_V4']
         i_type = 'ecs'
       else
-        get_resource('http://169.254.169.254')
+        get_resource('http://169.254.169.254/latest')
         i_type = 'ec2'
       end
       i_type
@@ -27,12 +27,6 @@ module SmPs
 
     def aws_region
       @aws_region ||= initialize_aws_region
-    end
-
-    # Only used from cli.rb, which is not used in this project.
-    def retrieve_from_userdata(key, userdata_type = :auto, source = 'http://169.254.169.254/latest/user-data')
-      userdata = user_data(source, userdata_type)
-      userdata[key]
     end
 
     def user_data(source, type = :auto)

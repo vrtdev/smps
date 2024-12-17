@@ -4,7 +4,9 @@ A command line tool and library to interact with the Amazon System Manager Param
 
 ## Installation
 
-    $ gem install smps
+```bash
+gem install smps
+```
 
 ## Usage
 
@@ -18,20 +20,19 @@ gem 'smps'
 
 And then execute:
 
-    $ bundle
+```bash
+bundle
+```
 
 ### CLI
 
-After installation, 2 executable scripts will be installed: `smps` & `smps-cli`:
-
-- smps: the simple version of this utility.
-- smps-cli: The thor cli executable offers a different interface.
+After installation the `smps` executable will be available.
 
 #### smps
 
 Run the command with `--help` for more information.
 
-```
+```text
 smps [OPTION]
 
     -h, --help:
@@ -61,83 +62,58 @@ smps [OPTION]
     Debug level.
 ```
 
-#### smps-cli
-
-The smps-cli command is a new cli with more straightforward actions.
-
-Run the command with `help` for more information: `smps-cli help`. For each individual action,
-you can also use `smps-cli help <action>`
-
-##### help
-
-```
-Commands:
-  smps-cli get NAME                    # Get path or path indicated by the name
-  smps-cli help [COMMAND]              # Describe available commands or one s...
-  smps-cli set NAME VALUE --type=TYPE  # Set the parameter to this value
-
-Options:
-  [--role=PROFILE]                 # IAM profile/role to use. From ~/.aws/config
-  [--region=REGION]                # Override the aws region
-  [--debug=N]                      # AwsSession debug level.
-                                   # Default: 0
-  [--user-data], [--no-user-data]  # Retrieve the name or path, and the key values from the userdata
-```
-
-##### get NAME
-
-```
-Usage:
-  smps-cli get NAME
-
-Options:
-  [--role=PROFILE]                 # IAM profile/role to use. From ~/.aws/config
-  [--region=REGION]                # Override the aws region
-  [--debug=N]                      # AwsSession debug level.
-                                   # Default: 0
-  [--user-data], [--no-user-data]  # Retrieve the name or path, and the key values from the userdata
-
-Description:
-  Gets a value from the parameter store.
-```
-
-##### set NAME VALUE
-
-```
-Usage:
-  smps-cli set NAME VALUE --type=TYPE
-
-Options:
-  --type=TYPE
-                                   # Default: String
-  [--key=ARN]                      # KMS key for SecureString encryption/decryption
-  [--role=PROFILE]                 # IAM profile/role to use. From ~/.aws/config
-  [--region=REGION]                # Override the aws region
-  [--debug=N]                      # AwsSession debug level.
-                                   # Default: 0
-  [--user-data], [--no-user-data]  # Retrieve the name or path, and the key values from the userdata
-
-Set the parameter to this value
-```
-
 ## Development
 
-After checking out the repo, run `./bin/setup` to install dependencies. Then, run `bundle exec rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, install dependencies.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```bash
+./bin/setup
+```
 
-To test the `smps` utility on your local machine, run `bundle exec smps --help` to see command-line options.
+ Then run the tests.
+
+ ```bash
+bundle exec rake spec
+```
+
+To install this gem onto your local machine.
+
+```bash
+bundle exec rake install
+```
+
+To create a package that can be installed on a different machine.
+
+```bash
+bundle exec rake build
+```
+
+This will create a `.gem` file in the `pkg` directory.
+
+To release a new version, update the version number in `version.rb` and then run
+
+```bash
+bundle exec rake release
+```
+
+This will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+To test the `smps` utility on your local machine, run the command below to see command-line options.
+
+```bash
+bundle exec smps --help
+```
 
 ## Contributing
 
 We use git flow in this project. To create your pull request, you can either use the git-flow helper or
 manually create a new feature branch and pull request.
 
-1. Fork it ( https://github.com/vrtdev/smps/fork )
+1. Fork it ( <https://github.com/vrtdev/smps/fork> )
 2. Clone your forked repository.
 3. Create your feature branch (`git checkout -b feature/my-new-feature`)
 4. Commit your changes (`git commit -am 'Add some feature'`)
 5. Push to the branch (`git push origin feature/my-new-feature`)
 6. Create a new Pull Request. Remember to make the pull request against the `develop` branch.
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/vrtdev/smps.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/vrtdev/smps>.
